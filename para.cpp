@@ -1,11 +1,22 @@
-﻿#include <iostream>
+﻿
+
+#include <iostream>
 #include <string>
 
 std::string removeHtmlTags(const std::string& text) {
     std::string result = "";
+    bool inTag = false;
 
     for (char c : text) {
-        result += c;
+        if (c == '<') {
+            inTag = true;
+        }
+        else if (c == '>') {
+            inTag = false;
+        }
+        else if (!inTag) {
+            result += c;
+        }
     }
     return result;
 }
