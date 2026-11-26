@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <string>
 #include <vector>
+#include <stack>
 #include <map>
 #include <sstream>
 #include <algorithm>
@@ -105,10 +106,61 @@ void task3_vigenere() {
     cout << "Decrypted: " << decrypted << "\n";
 }
 
+bool isValidJSON(const string& json) {
+    stack<char> brackets;
+    bool inQuotes = false;
+    bool escaped = false;
+
+    for (char c : json) {
+        if (inQuotes) {
+            if (escaped) {
+                escaped = false;
+            }
+            else if (c == '\\') {
+                escaped = true;
+            }
+            else if (c == '"') {
+                inQuotes = false;
+            }
+            continue;
+        }
+
+        if (c == '"') {
+            inQuotes = true;
+        }
+        else if (c == '{' || c == '[') {
+            brackets.push(c);
+        }
+        else if (c == '}' || c == ']') {
+            if (brackets.empty()) return false;
+            char open = brackets.top();
+            brackets.pop();
+            if ((c == '}' && open != '{') || (c == ']' && open != '[')) {
+                return false;
+            }
+        }
+    }
+    return !inQuotes && brackets.empty();
+}
+
+void task4_jsonValidation() {
+    cout << "\n--- Task 4: JSON Validation ---\n";
+    cout << boolalpha;
+
+    string test1 = R"({"name": "Ivan", "age": 25, "skills": ["C++", "Python"]})";
+    string test2 = R"({"name": "Ivan", "age": 25])";
+    string test3 = R"({"text": "He said: \"Hello!\"", "valid": true})";
+
+    cout << "Test 1 (valid):     " << isValidJSON(test1) << "\n";
+    cout << "Test 2 (invalid):   " << isValidJSON(test2) << "\n";
+    cout << "Test 3 (escaped):   " << isValidJSON(test3) << "\n";
+}
+
 int main() {
     task1_logParser();
     task2_wordFrequency();
     task3_vigenere();
+    task4_jsonValidation();
 
     return 0;
 }
