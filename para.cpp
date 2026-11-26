@@ -67,9 +67,48 @@ void task2_wordFrequency() {
     }
 }
 
+string vigenereCipher(string text, string key, bool encrypt) {
+    string result = "";
+    int keyIndex = 0;
+
+    for (char& c : text) {
+        if (isalpha(c)) {
+            char base = isupper(c) ? 'A' : 'a';
+            char keyChar = tolower(key[keyIndex % key.length()]);
+            int shift = keyChar - 'a';
+
+            if (encrypt) {
+                c = (c - base + shift) % 26 + base;
+            }
+            else {
+                c = (c - base - shift + 26) % 26 + base;
+            }
+            keyIndex++;
+        }
+        result += c;
+    }
+    return result;
+}
+
+void task3_vigenere() {
+    cout << "\n--- Task 3: Vigenere Cipher ---\n";
+
+    string text = "HELLO WORLD";
+    string key = "KEY";
+
+    string encrypted = vigenereCipher(text, key, true);
+    string decrypted = vigenereCipher(encrypted, key, false);
+
+    cout << "Original:  " << text << "\n";
+    cout << "Key:       " << key << "\n";
+    cout << "Encrypted: " << encrypted << "\n";
+    cout << "Decrypted: " << decrypted << "\n";
+}
+
 int main() {
     task1_logParser();
     task2_wordFrequency();
+    task3_vigenere();
 
     return 0;
 }
