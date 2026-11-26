@@ -1,6 +1,4 @@
-﻿
-
-#include <iostream>
+﻿#include <iostream>
 #include <string>
 
 std::string removeHtmlTags(const std::string& text) {
@@ -22,10 +20,13 @@ std::string removeHtmlTags(const std::string& text) {
 }
 
 int main() {
-    std::string htmlText = "<h1>Hello, world!</h1><p>This is <b>bold</b> text.</p>";
+    std::string htmlText1 = "<h1>Hello, world!</h1><p>This is <b>bold</b> text.</p>";
+    std::cout << "Original text:\n" << htmlText1 << "\n\n";
+    std::cout << "Text without tags:\n" << removeHtmlTags(htmlText1) << "\n\n";
 
-    std::cout << "Original text:\n" << htmlText << "\n\n";
-    std::cout << "Text without tags:\n" << removeHtmlTags(htmlText) << "\n";
+    std::string htmlText2 = "<div><a href='#'>Link</a></div>";
+    std::cout << "Original text:\n" << htmlText2 << "\n\n";
+    std::cout << "Text without tags:\n" << removeHtmlTags(htmlText2) << "\n";
 
     return 0;
 }
